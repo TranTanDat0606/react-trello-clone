@@ -6,7 +6,7 @@ const items = ["Task 1", "Task 2", "Task 3"];
 function App() {
   const [list, setList] = React.useState(items);
 
-  const handleDragEnd = (result) => {
+  const handleDragEnd = (result: any) => {
     if (!result.destination) return;
     const newList = Array.from(list);
     const [moved] = newList.splice(result.source.index, 1);
