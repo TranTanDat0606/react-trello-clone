@@ -1,5 +1,3 @@
-import React from "react";
-
 import { Avatar, Card, Popconfirm, Tooltip } from "antd";
 import { DeleteOutlined, EditOutlined, SettingOutlined } from "@ant-design/icons";
 import { Draggable } from "@hello-pangea/dnd";

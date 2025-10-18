@@ -1,4 +1,3 @@
-import React from "react";
 import { Card, Button, Tooltip, Popconfirm } from "antd";
 import { DeleteOutlined, PlusOutlined } from "@ant-design/icons";
 
