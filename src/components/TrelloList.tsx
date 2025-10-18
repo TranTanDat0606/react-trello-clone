@@ -1,0 +1,63 @@
+import React from "react";
+import { Card, Button, Tooltip, Popconfirm } from "antd";
+import { DeleteOutlined, PlusOutlined } from "@ant-design/icons";
+
+import { Draggable, Droppable } from "@hello-pangea/dnd";
+import type { ICardItem, IListItem } from "../type";
+import SimpleCard from "./SimpleCard";
+
+interface TrelloListProps {
+  index: number;
+  listItem: IListItem;
+  cards: ICardItem[];
+}
+
+const TrelloList = ({ index, listItem, cards }: TrelloListProps) => {
+  return (
+    <Draggable draggableId={listItem.id.toString()} index={index}>
+      {(provided) => (
+        <div ref={provided.innerRef} {...provided.draggableProps} {...provided.dragHandleProps} className="todoList">
+          <Droppable droppableId={listItem.id.toString()} type="CARD" direction="vertical">
+            {(provided) => (
+              <Card
+                key={listItem.id}
+                title={listItem.title}
+                size="small"
+                extra={
+                  <>
+                    <Tooltip title="Add a card">
+                      <Button shape="circle" icon={<PlusOutlined />} style={{ margin: 10 }} />
+                    </Tooltip>
+
+                    <Popconfirm
+                      title="Delete the task"
+                      description="Are you sure to delete this task?"
+                      // onConfirm={confirm}
+                      // onCancel={cancel}
+                      okText="Yes"
+                      cancelText="No"
+                    >
+                      <Tooltip title="Delete this list">
+                        <Button shape="circle" icon={<DeleteOutlined />} />
+                      </Tooltip>
+                    </Popconfirm>
+                  </>
+                }
+                style={{ width: 300 }}
+              >
+                <div ref={provided.innerRef} {...provided.droppableProps} className="trelloList_content">
+                  {cards.map((card, cardIndex) => {
+                    return <SimpleCard key={card.id} index={cardIndex} card={card} listId={listItem.id} />;
+                  })}
+                  {provided.placeholder}
+                </div>
+              </Card>
+            )}
+          </Droppable>
+        </div>
+      )}
+    </Draggable>
+  );
+};
+
+export default TrelloList;
