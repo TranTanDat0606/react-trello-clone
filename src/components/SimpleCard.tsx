@@ -9,11 +9,12 @@ const { Meta } = Card;
 
 interface SimpleCardProps {
   index: number;
-  listID: string;
   card: ICardItem;
+  listId: string;
 }
 
 const SimpleCard = ({ index, listId, card }: SimpleCardProps) => {
+  console.log(listId);
   return (
     <Draggable draggableId={card.id.toString()} index={index}>
       {(provided) => (

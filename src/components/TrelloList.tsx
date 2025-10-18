@@ -47,7 +47,7 @@ const TrelloList = ({ index, listItem, cards }: TrelloListProps) => {
               >
                 <div ref={provided.innerRef} {...provided.droppableProps} className="trelloList_content">
                   {cards.map((card, cardIndex) => {
-                    return <SimpleCard key={card.id} index={cardIndex} card={card} listId={listItem.id} />;
+                    return <SimpleCard key={card.id} index={cardIndex} card={card} listId={listItem.id.toString()} />;
                   })}
                   {provided.placeholder}
                 </div>
