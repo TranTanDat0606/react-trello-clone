@@ -1,50 +1,72 @@
 import React from "react";
-import { DragDropContext, Droppable, Draggable } from "@hello-pangea/dnd";
-
-const items = ["Task 1", "Task 2", "Task 3"];
+import { loginSchema } from "./schemas/userSchema";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 function App() {
-  const [list, setList] = React.useState(items);
+  const [formData, setFormData] = React.useState({
+    email: "",
+    password: "",
+  });
 
-  const handleDragEnd = (result: any) => {
-    if (!result.destination) return;
-    const newList = Array.from(list);
-    const [moved] = newList.splice(result.source.index, 1);
-    newList.splice(result.destination.index, 0, moved);
-    setList(newList);
+  const handleChange = (e) => {
+    setFormData({
+      ...formData,
+      [e.target.name]: e.target.value,
+    });
+  };
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+
+    // ✅ Validate bằng safeParse()
+    const result = loginSchema.safeParse(formData);
+
+    if (!result.success) {
+      // ❌ Nếu dữ liệu sai → hiển thị toast lỗi
+      const errors = result.error.format();
+
+      if (errors.email?._errors) {
+        toast.error(errors.email._errors[0]);
+      } else if (errors.password?._errors) {
+        toast.error(errors.password._errors[0]);
+      }
+
+      return;
+    }
+
+    // ✅ Nếu dữ liệu hợp lệ
+    toast.success("Đăng nhập thành công!");
   };
 
   return (
-    <DragDropContext onDragEnd={handleDragEnd}>
-      <Droppable droppableId="list">
-        {(provided) => (
-          <div {...provided.droppableProps} ref={provided.innerRef}>
-            {list.map((item, index) => (
-              <Draggable key={item} draggableId={item} index={index}>
-                {(provided) => (
-                  <div
-                    ref={provided.innerRef}
-                    {...provided.draggableProps}
-                    {...provided.dragHandleProps}
-                    style={{
-                      margin: "8px",
-                      padding: "12px",
-                      background: "#fff",
-                      borderRadius: "8px",
-                      boxShadow: "0 1px 3px rgba(0,0,0,0.1)",
-                      ...provided.draggableProps.style,
-                    }}
-                  >
-                    {item}
-                  </div>
-                )}
-              </Draggable>
-            ))}
-            {provided.placeholder}
-          </div>
-        )}
-      </Droppable>
-    </DragDropContext>
+    <div style={{ width: 300, margin: "50px auto", textAlign: "center" }}>
+      <ToastContainer position="top-center" autoClose={2000} />
+      <h2>Đăng nhập</h2>
+
+      <form onSubmit={handleSubmit}>
+        <input
+          name="email"
+          placeholder="Email"
+          value={formData.email}
+          onChange={handleChange}
+          style={{ width: "100%", marginBottom: 10, padding: 5 }}
+        />
+
+        <input
+          name="password"
+          placeholder="Mật khẩu"
+          type="password"
+          value={formData.password}
+          onChange={handleChange}
+          style={{ width: "100%", marginBottom: 10, padding: 5 }}
+        />
+
+        <button type="submit" style={{ width: "100%", padding: 8 }}>
+          Đăng nhập
+        </button>
+      </form>
+    </div>
   );
 }
 
