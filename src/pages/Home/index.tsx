@@ -6,7 +6,7 @@ const Home = () => {
     <div className="flex flex-col items-center justify-start pt-[135px]! min-h-[93vh] bg-gray-50 px-4 text-center">
       {/* Badge */}
       <Tag color="gold" className="mb-4 text-sm font-semibold flex py-[6px]! px-[10px]! items-center">
-        <img src="/public/icon-number-1.png" alt="icon-number-1" className="w-[30px] h-[30px]" />
+        <img src="/icon-number-1.png" alt="icon-number-1" className="w-[30px] h-[30px]" />
         NO1 TASK MANAGEMENT
       </Tag>
 
