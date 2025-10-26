@@ -4,6 +4,7 @@ import { DeleteOutlined, PlusOutlined } from "@ant-design/icons";
 import { Draggable, Droppable } from "@hello-pangea/dnd";
 import type { ICardItem, IListItem } from "../type";
 import SimpleCard from "./SimpleCard";
+import { useTrelloContext } from "../contexts/trello-context";
 
 interface TrelloListProps {
   index: number;
@@ -12,6 +13,8 @@ interface TrelloListProps {
 }
 
 const TrelloList = ({ index, listItem, cards }: TrelloListProps) => {
+  const { handleAddCard, handleDeleteList } = useTrelloContext();
+
   return (
     <Draggable draggableId={listItem.id.toString()} index={index}>
       {(provided) => (
@@ -25,14 +28,19 @@ const TrelloList = ({ index, listItem, cards }: TrelloListProps) => {
                 extra={
                   <>
                     <Tooltip title="Add a card">
-                      <Button shape="circle" icon={<PlusOutlined />} style={{ margin: 10 }} />
+                      <Button
+                        shape="circle"
+                        icon={<PlusOutlined />}
+                        style={{ margin: 10 }}
+                        onClick={() => handleAddCard(listItem.id)}
+                      />
                     </Tooltip>
 
                     <Popconfirm
                       title="Delete the task"
                       description="Are you sure to delete this task?"
-                      // onConfirm={confirm}
-                      // onCancel={cancel}
+                      onConfirm={() => handleDeleteList(listItem.id)}
+                      onCancel={() => {}}
                       okText="Yes"
                       cancelText="No"
                     >

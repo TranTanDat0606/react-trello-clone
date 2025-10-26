@@ -17,7 +17,10 @@ code {
 }
 
 main {
-  padding: 20px 16px 0px 16px;
+  padding: 15px 16px 0px 16px;
+  background-color: #eeeded;
+  height: 100vh;
+  overflow-y: hidden;
 }
 
 ::-webkit-scrollbar-track {
@@ -43,9 +46,10 @@ main {
   background-color: #1677ff;
   box-sizing: border-box;
   display: flex;
+  align-items: center;
   min-height: 40px;
   max-height: 40px;
-  padding: 4px;
+  padding: 4px 20px;
   display: flex;
   width: 100%;
 }
@@ -54,11 +58,9 @@ main {
   background: url("/assets/images/logo.png") no-repeat 100% 0 / cover;
   height: 30px;
   width: 80px;
-  opacity: 0.5;
   display: block;
   position: absolute;
   left: 50%;
-  top: 5px;
   transform: translateX(-50%);
 }
 
@@ -161,7 +163,7 @@ main {
 }
 
 .card {
-  margin-top: 10px;
+  margin: 10px 0 20px;
 }
 
 .todoList {
@@ -178,7 +180,7 @@ main {
 .trelloList_content {
   min-height: 10px;
   overflow: auto;
-  max-height: 80vh;
+  max-height: 83vh;
   padding-right: 5px;
 }
 
@@ -211,6 +213,9 @@ main {
   justify-content: center;
 }
 
-#root {
-  overflow: hidden;
+.addList {
+  background-color: #fff;
+  padding: 5px 10px;
+  border-radius: 5px;
+  margin-top: 5px;
 }

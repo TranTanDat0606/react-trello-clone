@@ -45,35 +45,51 @@ drap drop card in same list
 
 // hash object
 export const mockData = {
-  columns: ["list1", "list2"],
-  lists: {
-    list1: {
-      id: "list1",
-      title: "List 1",
-      cards: ["card1-1"],
+  columns: ["task-1", "doing-1", "done-1"],
+
+  tasks: {
+    "task-1": {
+      id: "task-1",
+      title: "Task 1",
+      cards: ["task-1-1"],
     },
-    list2: {
-      id: "list2",
-      title: "List 2",
-      cards: ["card2-1", "card2-2"],
+    "doing-1": {
+      id: "doing-1",
+      title: "Doing 1",
+      cards: ["doing-1-1", "doing-1-2"],
+    },
+    "done-1": {
+      id: "done-1",
+      title: "Done 1",
+      cards: ["done-1-1", "done-1-2"],
     },
   },
 
   cards: {
-    "card1-1": {
-      id: "card1-1",
+    "task-1-1": {
+      id: "task-1-1",
       title: "Card 1-1",
-      description: "This is card 1-1",
+      description: "This is card task-1-1",
     },
-    "card2-1": {
-      id: "card2-1",
+    "doing-1-1": {
+      id: "doing-1-1",
       title: "Card 2-1",
-      description: "This is card 2-1",
+      description: "This is card doing-1-1",
     },
-    "card2-2": {
-      id: "card2-2",
+    "doing-1-2": {
+      id: "doing-1-2",
       title: "Card 2-2",
-      description: "This is card 2-2",
+      description: "This is card doing-1-2",
+    },
+    "done-1-1": {
+      id: "done-1-1",
+      title: "Card 3-1",
+      description: "This is card done-1-1",
+    },
+    "done-1-2": {
+      id: "done-1-2",
+      title: "Card 3-2",
+      description: "This is card done-1-2",
     },
   },
 };
