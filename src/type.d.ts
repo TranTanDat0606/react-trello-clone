@@ -12,7 +12,7 @@ export interface ICardItem {
 
 export interface ITrello {
   columns: string[];
-  tasks: {
+  lists: {
     [key: string]: IListItem;
   };
   cards: {

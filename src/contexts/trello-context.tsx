@@ -15,6 +15,8 @@ type TrelloContextType = {
   setShowForm: React.Dispatch<React.SetStateAction<boolean>>;
   setTitleList: React.Dispatch<React.SetStateAction<string>>;
   onDragEnd: (result: DropResult) => void;
+  // isModalOpen: boolean;
+  // setIsModalOpen: React.Dispatch<React.SetStateAction<boolean>>;
 };
 
 export const TrelloContext = React.createContext<TrelloContextType | undefined>(undefined);
@@ -23,7 +25,9 @@ export const TrelloProvider = ({ children }: React.PropsWithChildren) => {
   const [trello, setTrello] = React.useState<ITrello>(mockData);
   const [showForm, setShowForm] = React.useState(false);
   const [titleList, setTitleList] = React.useState("");
+  // const [isModalOpen, setIsModalOpen] = React.useState(false);
 
+  // Todo: Drap and Drop
   const onDragEnd = (result: DropResult) => {
     const { source, destination, draggableId, type } = result;
 
@@ -45,16 +49,16 @@ export const TrelloProvider = ({ children }: React.PropsWithChildren) => {
     // Todo: drap drop card in same list
     if (sourceDroppableId === destinationDroppableId) {
       setTrello((prevState) => {
-        const newCard = prevState.tasks[sourceDroppableId].cards;
+        const newCard = prevState.lists[sourceDroppableId].cards;
         newCard.splice(sourceIndex, 1);
         newCard.splice(destinationIndex, 0, draggableId);
 
         return {
           ...prevState,
           lists: {
-            ...prevState.tasks,
+            ...prevState.lists,
             [sourceDroppableId]: {
-              ...prevState.tasks[sourceDroppableId],
+              ...prevState.lists[sourceDroppableId],
               cards: newCard,
             },
           },
@@ -65,12 +69,12 @@ export const TrelloProvider = ({ children }: React.PropsWithChildren) => {
 
     // Todo: drap drop card different list
     setTrello((prevState) => {
-      prevState.tasks[sourceDroppableId].cards.splice(sourceIndex, 1);
-      prevState.tasks[destinationDroppableId].cards.splice(destinationIndex, 0, draggableId);
+      prevState.lists[sourceDroppableId].cards.splice(sourceIndex, 1);
+      prevState.lists[destinationDroppableId].cards.splice(destinationIndex, 0, draggableId);
 
       return {
         ...prevState,
-        lists: prevState.tasks,
+        lists: prevState.lists,
       };
     });
   };
@@ -78,7 +82,7 @@ export const TrelloProvider = ({ children }: React.PropsWithChildren) => {
   // Todo: add list
   const handleAddList = () => {
     setTrello((prevState) => {
-      const newListId = `list${Object.keys(prevState.tasks).length + 1}`;
+      const newListId = `lists${Object.keys(prevState.lists).length + 1}`;
       const newList = {
         id: newListId,
         title: titleList,
@@ -89,7 +93,7 @@ export const TrelloProvider = ({ children }: React.PropsWithChildren) => {
         ...prevState,
         columns: [...prevState.columns, newListId], // thêm ID list mới
         lists: {
-          ...prevState.tasks,
+          ...prevState.lists,
           [newListId]: newList, // thêm list mới vào object lists
         },
       };
@@ -100,13 +104,13 @@ export const TrelloProvider = ({ children }: React.PropsWithChildren) => {
   // Todo: add card
   const handleAddCard = (listID: string) => {
     setTrello((prevState) => {
+      const newTitleCard = Object.keys(prevState.cards).length;
       const idList = prevState.lists[listID];
-
-      const newCardId = `card1-${Date.now()}`;
+      const newCardId = `task-${Date.now()}`;
 
       const newCard = {
         id: newCardId,
-        title: `Card1-${idList.cards.length + 1}`,
+        title: `Task ${newTitleCard + 1}-${idList.cards.length + 1}`,
         description: `This is ${newCardId}`,
       };
       return {
@@ -144,11 +148,11 @@ export const TrelloProvider = ({ children }: React.PropsWithChildren) => {
   // Todo: delete card
   const handleDeleteCard = (cardID: string, listID: string) => {
     setTrello((prevState) => {
-      const findList = prevState.tasks[listID];
+      const findList = prevState.lists[listID];
       const deleteCard = findList.cards.filter((id) => id !== cardID);
 
       const updatedLists = {
-        ...prevState.tasks,
+        ...prevState.lists,
         [listID]: {
           ...findList,
           cards: deleteCard,
@@ -160,7 +164,7 @@ export const TrelloProvider = ({ children }: React.PropsWithChildren) => {
 
       return {
         ...prevState,
-        tasks: updatedLists,
+        lists: updatedLists,
         cards: updatedCardsData,
       };
     });
@@ -183,6 +187,8 @@ export const TrelloProvider = ({ children }: React.PropsWithChildren) => {
         handleDeleteList,
         handleDeleteCard,
         handleChangeCard,
+        isModalOpen,
+        setIsModalOpen,
       }}
     >
       {children}

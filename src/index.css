@@ -17,10 +17,14 @@ code {
 }
 
 main {
-  padding: 15px 16px 0px 16px;
+  padding: 15px 16px 15px 16px;
   background-color: #eeeded;
-  height: 100vh;
-  overflow-y: hidden;
+  height: 94.5vh;
+  overflow: hidden !important;
+  overflow-x: auto !important;
+}
+main::-webkit-scrollbar {
+  height: 10px; /* chiều cao scrollbar ngang */
 }
 
 ::-webkit-scrollbar-track {

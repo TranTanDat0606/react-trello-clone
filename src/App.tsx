@@ -26,7 +26,7 @@ function App() {
                   {...provided.droppableProps}
                 >
                   {trello.columns.map((column: string, columnIndex: number) => {
-                    const listItem = trello.tasks[column] || {};
+                    const listItem = trello.lists[column] || {};
                     const cards = (listItem.cards || []).map((cardId: string) => trello.cards[cardId]);
 
                     return <TrelloList key={listItem.id} index={columnIndex} listItem={listItem} cards={cards} />;
