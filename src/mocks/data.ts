@@ -1,51 +1,31 @@
 // hash object
 export const mockData = {
-  columns: ["task-1", "doing-1", "done-1"],
+  columns: ["list-1", "list-2", "list-3"],
 
   lists: {
-    "task-1": {
-      id: "task-1",
-      title: "Task 1",
-      cards: ["task-1-1"],
+    "list-1": {
+      id: "list-1",
+      title: "Todo",
+      cards: ["card-1", "card-2"],
     },
-    "doing-1": {
-      id: "doing-1",
-      title: "Doing 1",
-      cards: ["doing-1-1", "doing-1-2"],
+    "list-2": {
+      id: "list-2",
+      title: "Doing",
+      cards: ["card-3", "card-4"],
     },
-    "done-1": {
-      id: "done-1",
-      title: "Done 1",
-      cards: ["done-1-1", "done-1-2"],
+    "list-3": {
+      id: "list-3",
+      title: "Done",
+      cards: ["card-5"],
     },
   },
 
   cards: {
-    "task-1-1": {
-      id: "task-1-1",
-      title: "Task 1-1",
-      description: "This is card task-1-1",
-    },
-    "doing-1-1": {
-      id: "doing-1-1",
-      title: "Task 2-1",
-      description: "This is card doing-1-1",
-    },
-    "doing-1-2": {
-      id: "doing-1-2",
-      title: "Task 2-2",
-      description: "This is card doing-1-2",
-    },
-    "done-1-1": {
-      id: "done-1-1",
-      title: "Task 3-1",
-      description: "This is card done-1-1",
-    },
-    "done-1-2": {
-      id: "done-1-2",
-      title: "Task 3-2",
-      description: "This is card done-1-2",
-    },
+    "card-1": { id: "card-1", title: "Learn React", description: "Hooks, State, Props" },
+    "card-2": { id: "card-2", title: "Learn Context API", description: "Provider/Consumer" },
+    "card-3": { id: "card-3", title: "Build Trello App", description: "Drag & Drop feature" },
+    "card-4": { id: "card-4", title: "Fix DnD Bug", description: "Reorder problem" },
+    "card-5": { id: "card-5", title: "Deploy to Vercel", description: "CI/CD test" },
   },
 };
 

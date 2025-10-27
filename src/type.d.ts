@@ -19,3 +19,20 @@ export interface ITrello {
     [key: string]: ICardItem;
   };
 }
+
+export interface IFormInput {
+  title: string;
+  desc: string;
+  members: [];
+}
+
+export interface TrelloListProps {
+  index: number;
+  listItem: IListItem;
+  cards: ICardItem[];
+}
+export interface SimpleCardProps {
+  index: number;
+  card: ICardItem;
+  listId: string;
+}

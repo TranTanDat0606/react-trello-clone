@@ -1,25 +1,14 @@
-import React from "react";
 import { Card, Button, Tooltip, Popconfirm } from "antd";
 import { DeleteOutlined, PlusOutlined } from "@ant-design/icons";
 
 import { Draggable, Droppable } from "@hello-pangea/dnd";
-import type { ICardItem, IListItem } from "../type";
+import type { TrelloListProps } from "../type";
 import SimpleCard from "./SimpleCard";
 import { useTrelloContext } from "../contexts/trello-context";
-
-interface TrelloListProps {
-  index: number;
-  listItem: IListItem;
-  cards: ICardItem[];
-}
+import FormModal from "./FormModal";
 
 const TrelloList = ({ index, listItem, cards }: TrelloListProps) => {
-  const {
-    handleAddCard,
-    handleDeleteList,
-    // isModalOpen,
-    // setIsModalOpen
-  } = useTrelloContext();
+  const { handleDeleteList, openModal } = useTrelloContext();
 
   return (
     <Draggable draggableId={listItem.id.toString()} index={index}>
@@ -39,8 +28,7 @@ const TrelloList = ({ index, listItem, cards }: TrelloListProps) => {
                           shape="circle"
                           icon={<PlusOutlined />}
                           style={{ margin: 10 }}
-                          onClick={() => handleAddCard(listItem.id)}
-                          // onClick={() => setIsModalOpen(true)}
+                          onClick={() => openModal(listItem.id)}
                         />
                       </Tooltip>
 
@@ -67,17 +55,7 @@ const TrelloList = ({ index, listItem, cards }: TrelloListProps) => {
                     {provided.placeholder}
                   </div>
                 </Card>
-                {/* <Modal
-                  title="Add Card"
-                  closable={{ "aria-label": "Custom Close Button" }}
-                  // open={isModalOpen}
-                  // onOk={handleOk}
-                  onCancel={() => setIsModalOpen(false)}
-                >
-                  <p>Some contents...</p>
-                  <p>Some contents...</p>
-                  <p>Some contents...</p>
-                </Modal> */}
+                <FormModal />
               </>
             )}
           </Droppable>

@@ -52,6 +52,7 @@ function App() {
                         placeholder="Enter a list title"
                         className="max-w-[305px]! m-[20px]! ml-[15px]!"
                         onChange={(e) => setTitleList(e.target.value)}
+                        onPressEnter={handleAddList}
                       />
                     </Card>
                   ) : (

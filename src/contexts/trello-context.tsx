@@ -1,5 +1,5 @@
 import React from "react";
-import type { ITrello } from "../type";
+import type { IFormInput, ITrello } from "../type";
 import { mockData } from "../mocks/data";
 import type { DropResult } from "@hello-pangea/dnd";
 import { message } from "antd";
@@ -7,16 +7,18 @@ import { message } from "antd";
 type TrelloContextType = {
   trello: ITrello;
   handleAddList: () => void;
-  handleAddCard: (listID: string) => void;
+  // handleAddCard: (listID: string) => void;
+  handleAddCard: (data: IFormInput) => void;
   handleDeleteList: (listID: string) => void;
   handleDeleteCard: (cardID: string, listID: string) => void;
-  handleChangeCard: (cardID: string, listID: string) => void;
+  // handleChangeCard: (cardID: string, listID: string) => void;
   showForm: boolean;
   setShowForm: React.Dispatch<React.SetStateAction<boolean>>;
   setTitleList: React.Dispatch<React.SetStateAction<string>>;
   onDragEnd: (result: DropResult) => void;
-  // isModalOpen: boolean;
-  // setIsModalOpen: React.Dispatch<React.SetStateAction<boolean>>;
+  openModal: (listID: string) => void;
+  isModalOpen: boolean;
+  setIsModalOpen: React.Dispatch<React.SetStateAction<boolean>>;
 };
 
 export const TrelloContext = React.createContext<TrelloContextType | undefined>(undefined);
@@ -25,7 +27,14 @@ export const TrelloProvider = ({ children }: React.PropsWithChildren) => {
   const [trello, setTrello] = React.useState<ITrello>(mockData);
   const [showForm, setShowForm] = React.useState(false);
   const [titleList, setTitleList] = React.useState("");
-  // const [isModalOpen, setIsModalOpen] = React.useState(false);
+  const [isModalOpen, setIsModalOpen] = React.useState(false);
+  const [currentListId, setCurrentListId] = React.useState<string>("");
+
+  // get ID List Item Add Card
+  const openModal = (listId: string) => {
+    setCurrentListId(listId);
+    setIsModalOpen(true);
+  };
 
   // Todo: Drap and Drop
   const onDragEnd = (result: DropResult) => {
@@ -101,23 +110,23 @@ export const TrelloProvider = ({ children }: React.PropsWithChildren) => {
     setShowForm(false);
   };
 
-  // Todo: add card
-  const handleAddCard = (listID: string) => {
+  // Todo: add Card
+  const handleAddCard = (data: IFormInput) => {
+    console.log(data);
     setTrello((prevState) => {
-      const newTitleCard = Object.keys(prevState.cards).length;
-      const idList = prevState.lists[listID];
+      const idList = prevState.lists[currentListId];
       const newCardId = `task-${Date.now()}`;
 
       const newCard = {
         id: newCardId,
-        title: `Task ${newTitleCard + 1}-${idList.cards.length + 1}`,
-        description: `This is ${newCardId}`,
+        title: data.title,
+        description: `This is ${data.desc}`,
       };
       return {
         ...prevState,
         lists: {
           ...prevState.lists,
-          [listID]: {
+          [currentListId]: {
             ...idList,
             cards: [...idList.cards, newCardId],
           },
@@ -128,6 +137,8 @@ export const TrelloProvider = ({ children }: React.PropsWithChildren) => {
         },
       };
     });
+
+    setIsModalOpen(false);
   };
 
   // Todo: delete list
@@ -172,7 +183,7 @@ export const TrelloProvider = ({ children }: React.PropsWithChildren) => {
   };
 
   // Todo: change card
-  const handleChangeCard = (cardID: string, listID: string) => {};
+  // const handleChangeCard = (cardID: string, listID: string) => {};
 
   return (
     <TrelloContext.Provider
@@ -186,7 +197,8 @@ export const TrelloProvider = ({ children }: React.PropsWithChildren) => {
         onDragEnd,
         handleDeleteList,
         handleDeleteCard,
-        handleChangeCard,
+        // handleChangeCard,
+        openModal,
         isModalOpen,
         setIsModalOpen,
       }}

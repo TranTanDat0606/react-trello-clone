@@ -1,19 +1,13 @@
 import { Avatar, Card, Popconfirm, Tooltip } from "antd";
 import { DeleteOutlined, EditOutlined, SettingOutlined } from "@ant-design/icons";
 import { Draggable } from "@hello-pangea/dnd";
-import type { ICardItem } from "../type";
+import type { SimpleCardProps } from "../type";
 import { useTrelloContext } from "../contexts/trello-context";
 
 const { Meta } = Card;
 
-interface SimpleCardProps {
-  index: number;
-  card: ICardItem;
-  listId: string;
-}
-
 const SimpleCard = ({ index, card, listId }: SimpleCardProps) => {
-  const { handleDeleteCard, handleChangeCard } = useTrelloContext();
+  const { handleDeleteCard } = useTrelloContext();
 
   return (
     <Draggable draggableId={card.id.toString()} index={index}>
@@ -33,7 +27,11 @@ const SimpleCard = ({ index, card, listId }: SimpleCardProps) => {
                 <SettingOutlined key="setting" />
               </Tooltip>,
               <Tooltip title="Edit">
-                <EditOutlined key="edit" onClick={() => handleChangeCard(card.id, listId)} />
+                <EditOutlined
+                  key="edit"
+                  onClick={() => {}}
+                  // handleChangeCard(card.id, listId)}
+                />
               </Tooltip>,
               <Popconfirm
                 title="Delete the card"
