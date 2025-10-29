@@ -6,7 +6,8 @@ import type { IFormInput } from "../type";
 const { TextArea } = Input;
 
 const FormModal = () => {
-  const { isModalOpen, setIsModalOpen, handleAddCard } = useTrelloContext();
+  const { trello, isModalOpen, setIsModalOpen, handleAddCard, handleChangeCard, isEditingCard } = useTrelloContext();
+
   const { control, handleSubmit, reset } = useForm<IFormInput>({
     defaultValues: {
       title: "",
@@ -17,11 +18,14 @@ const FormModal = () => {
 
   return (
     <Modal
-      title="Add Card"
-      closable={{ "aria-label": "Custom Close Button" }}
+      title={isEditingCard ? "Edit Card" : "Add Card"}
       open={isModalOpen}
       onOk={handleSubmit(async (data) => {
-        await handleAddCard(data);
+        if (isEditingCard) {
+          await handleChangeCard(data);
+        } else {
+          await handleAddCard(data);
+        }
         reset();
       })}
       onCancel={() => setIsModalOpen(false)}
@@ -58,22 +62,15 @@ const FormModal = () => {
                   allowClear
                   placeholder="Select members"
                   style={{ width: "90%" }}
-                  options={[
-                    {
-                      label: "Manager",
-                      options: [
-                        { label: "Tony", value: "Tony" },
-                        { label: "Truong", value: "Truong" },
-                      ],
-                    },
-                    {
-                      label: "Engineer",
-                      options: [
-                        { label: "Dat", value: "Dat" },
-                        { label: "Noval", value: "Noval" },
-                      ],
-                    },
-                  ]}
+                  options={Object.values(trello.members).map((m) => ({
+                    label: (
+                      <div className="flex items-center gap-2">
+                        <img src={m.avatar} alt={m.name} className="w-6 h-6 rounded-full" />
+                        <span>{m.name}</span>
+                      </div>
+                    ),
+                    value: m.name,
+                  }))}
                   onChange={(value) => field.onChange(value)}
                 />
               )}

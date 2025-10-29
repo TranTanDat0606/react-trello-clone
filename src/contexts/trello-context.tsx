@@ -7,18 +7,19 @@ import { message } from "antd";
 type TrelloContextType = {
   trello: ITrello;
   handleAddList: () => void;
-  // handleAddCard: (listID: string) => void;
   handleAddCard: (data: IFormInput) => void;
   handleDeleteList: (listID: string) => void;
   handleDeleteCard: (cardID: string, listID: string) => void;
-  // handleChangeCard: (cardID: string, listID: string) => void;
+  handleChangeCard: (data: IFormInput) => void;
   showForm: boolean;
   setShowForm: React.Dispatch<React.SetStateAction<boolean>>;
   setTitleList: React.Dispatch<React.SetStateAction<string>>;
   onDragEnd: (result: DropResult) => void;
-  openModal: (listID: string) => void;
+  openAddModal: (listID: string) => void;
+  openEditModal: (cardID: string) => void;
   isModalOpen: boolean;
   setIsModalOpen: React.Dispatch<React.SetStateAction<boolean>>;
+  isEditingCard: boolean;
 };
 
 export const TrelloContext = React.createContext<TrelloContextType | undefined>(undefined);
@@ -29,10 +30,18 @@ export const TrelloProvider = ({ children }: React.PropsWithChildren) => {
   const [titleList, setTitleList] = React.useState("");
   const [isModalOpen, setIsModalOpen] = React.useState(false);
   const [currentListId, setCurrentListId] = React.useState<string>("");
+  const [currentCardID, setCurrentCardID] = React.useState<string>("");
+  const [isEditingCard, setIsEditingCard] = React.useState(false);
 
-  // get ID List Item Add Card
-  const openModal = (listId: string) => {
+  const openAddModal = (listId: string) => {
+    setIsEditingCard(false);
     setCurrentListId(listId);
+    setIsModalOpen(true);
+  };
+
+  const openEditModal = (cardID: string) => {
+    setCurrentCardID(cardID);
+    setIsEditingCard(true);
     setIsModalOpen(true);
   };
 
@@ -112,7 +121,6 @@ export const TrelloProvider = ({ children }: React.PropsWithChildren) => {
 
   // Todo: add Card
   const handleAddCard = (data: IFormInput) => {
-    console.log(data);
     setTrello((prevState) => {
       const idList = prevState.lists[currentListId];
       const newCardId = `task-${Date.now()}`;
@@ -121,7 +129,9 @@ export const TrelloProvider = ({ children }: React.PropsWithChildren) => {
         id: newCardId,
         title: data.title,
         description: `This is ${data.desc}`,
+        members: data.members,
       };
+
       return {
         ...prevState,
         lists: {
@@ -138,6 +148,7 @@ export const TrelloProvider = ({ children }: React.PropsWithChildren) => {
       };
     });
 
+    setCurrentListId("");
     setIsModalOpen(false);
   };
 
@@ -183,7 +194,27 @@ export const TrelloProvider = ({ children }: React.PropsWithChildren) => {
   };
 
   // Todo: change card
-  // const handleChangeCard = (cardID: string, listID: string) => {};
+  const handleChangeCard = (data: IFormInput) => {
+    setTrello((prevState) => {
+      const newCardId = prevState.cards[currentCardID].id;
+
+      const newCard = {
+        id: newCardId,
+        title: data.title,
+        description: `This is ${data.desc}`,
+        members: data.members,
+      };
+
+      return {
+        ...prevState,
+        cards: {
+          ...prevState.cards,
+          [newCardId]: newCard,
+        },
+      };
+    });
+    setIsModalOpen(false);
+  };
 
   return (
     <TrelloContext.Provider
@@ -197,10 +228,12 @@ export const TrelloProvider = ({ children }: React.PropsWithChildren) => {
         onDragEnd,
         handleDeleteList,
         handleDeleteCard,
-        // handleChangeCard,
-        openModal,
+        handleChangeCard,
+        openAddModal,
+        openEditModal,
         isModalOpen,
         setIsModalOpen,
+        isEditingCard,
       }}
     >
       {children}

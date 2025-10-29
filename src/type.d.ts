@@ -8,6 +8,13 @@ export interface ICardItem {
   id: string;
   title: string;
   description: string;
+  members: string[];
+}
+
+export interface IMember {
+  id: string;
+  name: string;
+  avatar: string;
 }
 
 export interface ITrello {
@@ -18,6 +25,7 @@ export interface ITrello {
   cards: {
     [key: string]: ICardItem;
   };
+  members: { [key: string]: IMember };
 }
 
 export interface IFormInput {

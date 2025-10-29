@@ -21,11 +21,28 @@ export const mockData = {
   },
 
   cards: {
-    "card-1": { id: "card-1", title: "Learn React", description: "Hooks, State, Props" },
-    "card-2": { id: "card-2", title: "Learn Context API", description: "Provider/Consumer" },
-    "card-3": { id: "card-3", title: "Build Trello App", description: "Drag & Drop feature" },
-    "card-4": { id: "card-4", title: "Fix DnD Bug", description: "Reorder problem" },
-    "card-5": { id: "card-5", title: "Deploy to Vercel", description: "CI/CD test" },
+    "card-1": { id: "card-1", title: "Learn React", description: "Hooks, State, Props", members: ["Tony"] },
+    "card-2": {
+      id: "card-2",
+      title: "Learn Context API",
+      description: "Provider/Consumer",
+      members: ["Bình", "Truong"],
+    },
+    "card-3": {
+      id: "card-3",
+      title: "Build Trello App",
+      description: "Drag & Drop feature",
+      members: ["Tony", "Truong", "Dat", "Noval"],
+    },
+    "card-4": { id: "card-4", title: "Fix DnD Bug", description: "Reorder problem", members: ["Tony", "Noval"] },
+    "card-5": { id: "card-5", title: "Deploy to Vercel", description: "CI/CD test", members: ["Dat", "Noval"] },
+  },
+  members: {
+    Tony: { id: "Tony", name: "Tony", avatar: "/public/assets/images/avatar-member/avatar-Tony.jpg" },
+    Bình: { id: "Bình", name: "Bình", avatar: "/public/assets/images/avatar-member/Avatar-Binh.png" },
+    Truong: { id: "Truong", name: "Truong", avatar: "/public/assets/images/avatar-member/Avatar-Truong.jpg" },
+    Dat: { id: "Dat", name: "Dat", avatar: "/public/assets/images/avatar-member/Avatar-Dat.jpg" },
+    Noval: { id: "Noval", name: "Noval", avatar: "/public/assets/images/avatar-member/Avatar-Noval.jpg" },
   },
 };
 

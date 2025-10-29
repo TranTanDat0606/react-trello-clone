@@ -8,7 +8,7 @@ import { useTrelloContext } from "../contexts/trello-context";
 import FormModal from "./FormModal";
 
 const TrelloList = ({ index, listItem, cards }: TrelloListProps) => {
-  const { handleDeleteList, openModal } = useTrelloContext();
+  const { handleDeleteList, openAddModal } = useTrelloContext();
 
   return (
     <Draggable draggableId={listItem.id.toString()} index={index}>
@@ -28,7 +28,7 @@ const TrelloList = ({ index, listItem, cards }: TrelloListProps) => {
                           shape="circle"
                           icon={<PlusOutlined />}
                           style={{ margin: 10 }}
-                          onClick={() => openModal(listItem.id)}
+                          onClick={() => openAddModal(listItem.id)}
                         />
                       </Tooltip>
 

@@ -1,13 +1,14 @@
 import { Avatar, Card, Popconfirm, Tooltip } from "antd";
-import { DeleteOutlined, EditOutlined, SettingOutlined } from "@ant-design/icons";
+import { DeleteOutlined, EditOutlined, SettingOutlined, UserOutlined } from "@ant-design/icons";
 import { Draggable } from "@hello-pangea/dnd";
 import type { SimpleCardProps } from "../type";
 import { useTrelloContext } from "../contexts/trello-context";
+import FormModal from "./FormModal";
 
 const { Meta } = Card;
 
 const SimpleCard = ({ index, card, listId }: SimpleCardProps) => {
-  const { handleDeleteCard } = useTrelloContext();
+  const { trello, handleDeleteCard, openEditModal } = useTrelloContext();
 
   return (
     <Draggable draggableId={card.id.toString()} index={index}>
@@ -20,6 +21,7 @@ const SimpleCard = ({ index, card, listId }: SimpleCardProps) => {
                 draggable={false}
                 alt="example"
                 src="https://gw.alipayobjects.com/zos/rmsportal/JiqGstEfoWAOHiTxclqi.png"
+                className="h-[130px]"
               />
             }
             actions={[
@@ -29,8 +31,10 @@ const SimpleCard = ({ index, card, listId }: SimpleCardProps) => {
               <Tooltip title="Edit">
                 <EditOutlined
                   key="edit"
-                  onClick={() => {}}
-                  // handleChangeCard(card.id, listId)}
+                  onClick={() => {
+                    openEditModal(card.id);
+                  }}
+                  // }
                 />
               </Tooltip>,
               <Popconfirm
@@ -47,13 +51,31 @@ const SimpleCard = ({ index, card, listId }: SimpleCardProps) => {
               </Popconfirm>,
             ]}
           >
-            <Meta
-              avatar={<Avatar src="https://api.dicebear.com/7.x/miniavs/svg?seed=8" />}
-              title={card.title}
-              description={card.description}
-              className="card-body mt-[-6px]!"
-            />
+            <Meta title={card.title} description={card.description} className="card-body mt-[-6px]!" />{" "}
+            <div className="main-Card flex justify-end">
+              <Avatar.Group
+                max={{
+                  count: 2,
+                  style: {
+                    color: "#f56a00",
+                    backgroundColor: "#fde3cf",
+                  },
+                }}
+                size="large"
+              >
+                {card.members.map((memberId) => {
+                  const memberInfo = trello.members[memberId];
+                  if (!memberInfo) return null;
+                  return (
+                    <Tooltip title={memberInfo.name} placement="top" key={memberInfo.id}>
+                      <Avatar src={memberInfo.avatar} icon={<UserOutlined />} />
+                    </Tooltip>
+                  );
+                })}
+              </Avatar.Group>
+            </div>
           </Card>
+          <FormModal />
         </div>
       )}
     </Draggable>
