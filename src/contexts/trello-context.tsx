@@ -1,8 +1,9 @@
 import React from "react";
-import type { IFormInput, ITrello } from "../type";
+import { trelloSchema, type IFormInput, type ITrello } from "../types/type";
 import { mockData } from "../mocks/data";
 import type { DropResult } from "@hello-pangea/dnd";
 import { message } from "antd";
+import RandomImage from "../utils/randomImage";
 
 type TrelloContextType = {
   trello: ITrello;
@@ -19,30 +20,33 @@ type TrelloContextType = {
   openEditModal: (cardID: string) => void;
   isModalOpen: boolean;
   setIsModalOpen: React.Dispatch<React.SetStateAction<boolean>>;
-  isEditingCard: boolean;
+  isEditingCard: ITrello["cards"][string] | null;
 };
 
 export const TrelloContext = React.createContext<TrelloContextType | undefined>(undefined);
 
 export const TrelloProvider = ({ children }: React.PropsWithChildren) => {
-  const [trello, setTrello] = React.useState<ITrello>(mockData);
+  const [trello, setTrello] = React.useState<ITrello>(() => trelloSchema.parse(mockData));
   const [showForm, setShowForm] = React.useState(false);
   const [titleList, setTitleList] = React.useState("");
   const [isModalOpen, setIsModalOpen] = React.useState(false);
   const [currentListId, setCurrentListId] = React.useState<string>("");
   const [currentCardID, setCurrentCardID] = React.useState<string>("");
-  const [isEditingCard, setIsEditingCard] = React.useState(false);
+  const [isEditingCard, setIsEditingCard] = React.useState<ITrello["cards"][string] | null>(null);
 
   const openAddModal = (listId: string) => {
-    setIsEditingCard(false);
+    setIsEditingCard(null);
     setCurrentListId(listId);
     setIsModalOpen(true);
   };
 
   const openEditModal = (cardID: string) => {
-    setCurrentCardID(cardID);
-    setIsEditingCard(true);
-    setIsModalOpen(true);
+    const cardData = trello.cards[cardID];
+    if (cardData) {
+      setIsEditingCard(cardData);
+      setCurrentCardID(cardID);
+      setIsModalOpen(true);
+    }
   };
 
   // Todo: Drap and Drop
@@ -129,6 +133,7 @@ export const TrelloProvider = ({ children }: React.PropsWithChildren) => {
         id: newCardId,
         title: data.title,
         description: `This is ${data.desc}`,
+        image: RandomImage(),
         members: data.members,
       };
 
@@ -197,12 +202,14 @@ export const TrelloProvider = ({ children }: React.PropsWithChildren) => {
   const handleChangeCard = (data: IFormInput) => {
     setTrello((prevState) => {
       const newCardId = prevState.cards[currentCardID].id;
+      const getImage = prevState.cards[currentCardID].image;
 
       const newCard = {
         id: newCardId,
         title: data.title,
         description: `This is ${data.desc}`,
-        members: data.members,
+        image: getImage,
+        members: data.members ?? prevState.cards[currentCardID].members,
       };
 
       return {

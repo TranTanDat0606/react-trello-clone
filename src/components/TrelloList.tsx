@@ -2,7 +2,7 @@ import { Card, Button, Tooltip, Popconfirm } from "antd";
 import { DeleteOutlined, PlusOutlined } from "@ant-design/icons";
 
 import { Draggable, Droppable } from "@hello-pangea/dnd";
-import type { TrelloListProps } from "../type";
+import type { TrelloListProps } from "../types/type";
 import SimpleCard from "./SimpleCard";
 import { useTrelloContext } from "../contexts/trello-context";
 import FormModal from "./FormModal";

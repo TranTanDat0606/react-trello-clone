@@ -19,12 +19,7 @@ function App() {
           <DragDropContext onDragEnd={onDragEnd}>
             <Droppable droppableId="all-lists" type="LIST" direction="horizontal">
               {(provided) => (
-                <div
-                  ref={provided.innerRef}
-                  // style={{ backgroundColor: snapshot.isDraggingOver ? "blue" : "grey" }}
-                  className="listContainer "
-                  {...provided.droppableProps}
-                >
+                <div ref={provided.innerRef} className="listContainer " {...provided.droppableProps}>
                   {trello.columns.map((column: string, columnIndex: number) => {
                     const listItem = trello.lists[column] || {};
                     const cards = (listItem.cards || []).map((cardId: string) => trello.cards[cardId]);

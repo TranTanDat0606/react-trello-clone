@@ -1,3 +1,5 @@
+import RandomImage from "../utils/randomImage";
+
 // hash object
 export const mockData = {
   columns: ["list-1", "list-2", "list-3"],
@@ -21,21 +23,41 @@ export const mockData = {
   },
 
   cards: {
-    "card-1": { id: "card-1", title: "Learn React", description: "Hooks, State, Props", members: ["Tony"] },
+    "card-1": {
+      id: "card-1",
+      title: "Learn React",
+      description: "Hooks, State, Props",
+      image: RandomImage(),
+      members: ["Tony"],
+    },
     "card-2": {
       id: "card-2",
       title: "Learn Context API",
       description: "Provider/Consumer",
+      image: RandomImage(),
       members: ["Bình", "Truong"],
     },
     "card-3": {
       id: "card-3",
       title: "Build Trello App",
       description: "Drag & Drop feature",
+      image: RandomImage(),
       members: ["Tony", "Truong", "Dat", "Noval"],
     },
-    "card-4": { id: "card-4", title: "Fix DnD Bug", description: "Reorder problem", members: ["Tony", "Noval"] },
-    "card-5": { id: "card-5", title: "Deploy to Vercel", description: "CI/CD test", members: ["Dat", "Noval"] },
+    "card-4": {
+      id: "card-4",
+      title: "Fix DnD Bug",
+      description: "Reorder problem",
+      image: RandomImage(),
+      members: ["Tony", "Noval"],
+    },
+    "card-5": {
+      id: "card-5",
+      title: "Deploy to Vercel",
+      description: "CI/CD test",
+      image: RandomImage(),
+      members: ["Dat", "Noval"],
+    },
   },
   members: {
     Tony: { id: "Tony", name: "Tony", avatar: "/public/assets/images/avatar-member/avatar-Tony.jpg" },
