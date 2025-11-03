@@ -42,7 +42,6 @@ const SimpleCard = ({ index, card, listId }: SimpleCardProps) => {
                   }}
                 />
               </div>
-              // <img draggable={false} alt="example" src={card.image} className="h-[130px] w-full object-cover" />
             }
             actions={[
               <Tooltip title="Setting">

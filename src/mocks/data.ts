@@ -60,11 +60,11 @@ export const mockData = {
     },
   },
   members: {
-    Tony: { id: "Tony", name: "Tony", avatar: "/public/assets/images/avatar-member/avatar-Tony.jpg" },
-    Bình: { id: "Bình", name: "Bình", avatar: "/public/assets/images/avatar-member/Avatar-Binh.png" },
-    Truong: { id: "Truong", name: "Truong", avatar: "/public/assets/images/avatar-member/Avatar-Truong.jpg" },
-    Dat: { id: "Dat", name: "Dat", avatar: "/public/assets/images/avatar-member/Avatar-Dat.jpg" },
-    Noval: { id: "Noval", name: "Noval", avatar: "/public/assets/images/avatar-member/Avatar-Noval.jpg" },
+    Tony: { id: "Tony", name: "Tony", avatar: "/assets/images/avatar-member/avatar-Tony.jpg" },
+    Bình: { id: "Bình", name: "Bình", avatar: "/assets/images/avatar-member/Avatar-Binh.png" },
+    Truong: { id: "Truong", name: "Truong", avatar: "/assets/images/avatar-member/Avatar-Truong.jpg" },
+    Dat: { id: "Dat", name: "Dat", avatar: "/assets/images/avatar-member/Avatar-Dat.jpg" },
+    Noval: { id: "Noval", name: "Noval", avatar: "/assets/images/avatar-member/Avatar-Noval.jpg" },
   },
 };
 
