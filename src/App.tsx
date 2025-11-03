@@ -1,50 +1,69 @@
-import React from "react";
-import { DragDropContext, Droppable, Draggable } from "@hello-pangea/dnd";
+import { Button, Card, Input, Tooltip } from "antd";
+import { CloseOutlined, PlusOutlined } from "@ant-design/icons";
 
-const items = ["Task 1", "Task 2", "Task 3"];
+import { DragDropContext, Droppable } from "@hello-pangea/dnd";
+import { useTrelloContext } from "./contexts/trello-context";
+
+import Header from "./layouts/Header";
+import TrelloList from "./components/TrelloList";
 
 function App() {
-  const [list, setList] = React.useState(items);
-
-  const handleDragEnd = (result: any) => {
-    if (!result.destination) return;
-    const newList = Array.from(list);
-    const [moved] = newList.splice(result.source.index, 1);
-    newList.splice(result.destination.index, 0, moved);
-    setList(newList);
-  };
+  const { trello, handleAddList, showForm, setShowForm, setTitleList, onDragEnd } = useTrelloContext();
 
   return (
-    <DragDropContext onDragEnd={handleDragEnd}>
-      <Droppable droppableId="list">
-        {(provided) => (
-          <div {...provided.droppableProps} ref={provided.innerRef}>
-            {list.map((item, index) => (
-              <Draggable key={item} draggableId={item} index={index}>
-                {(provided) => (
-                  <div
-                    ref={provided.innerRef}
-                    {...provided.draggableProps}
-                    {...provided.dragHandleProps}
-                    style={{
-                      margin: "8px",
-                      padding: "12px",
-                      background: "#fff",
-                      borderRadius: "8px",
-                      boxShadow: "0 1px 3px rgba(0,0,0,0.1)",
-                      ...provided.draggableProps.style,
-                    }}
-                  >
-                    {item}
-                  </div>
-                )}
-              </Draggable>
-            ))}
-            {provided.placeholder}
-          </div>
-        )}
-      </Droppable>
-    </DragDropContext>
+    <>
+      <Header />
+
+      <main>
+        <div className="container">
+          <DragDropContext onDragEnd={onDragEnd}>
+            <Droppable droppableId="all-lists" type="LIST" direction="horizontal">
+              {(provided) => (
+                <div ref={provided.innerRef} className="listContainer " {...provided.droppableProps}>
+                  {trello.columns.map((column: string, columnIndex: number) => {
+                    const listItem = trello.lists[column] || {};
+                    const cards = (listItem.cards || []).map((cardId: string) => trello.cards[cardId]);
+
+                    return <TrelloList key={listItem.id} index={columnIndex} listItem={listItem} cards={cards} />;
+                  })}
+
+                  {provided.placeholder}
+
+                  {showForm ? (
+                    <Card
+                      className="min-w-[350px] mt-[5px]!"
+                      actions={[
+                        <Button type="primary" onClick={() => handleAddList()}>
+                          Add List
+                        </Button>,
+                        <Tooltip title="Cancel">
+                          <CloseOutlined onClick={() => setShowForm(false)} />
+                        </Tooltip>,
+                      ]}
+                    >
+                      <Input
+                        required
+                        autoFocus
+                        placeholder="Enter a list title"
+                        className="max-w-[305px]! m-[20px]! ml-[15px]!"
+                        onChange={(e) => setTitleList(e.target.value)}
+                        onPressEnter={handleAddList}
+                      />
+                    </Card>
+                  ) : (
+                    <div className="addList">
+                      <Button type="text" onClick={() => setShowForm(true)}>
+                        <PlusOutlined /> Add another list
+                      </Button>{" "}
+                    </div>
+                  )}
+                </div>
+              )}
+            </Droppable>
+          </DragDropContext>
+        </div>
+      </main>
+    </>
   );
 }
 
